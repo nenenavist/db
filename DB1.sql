@@ -1,4 +1,3 @@
-\gset
 
 CREATE TABLE human(
     id SERIAL PRIMARY KEY,
@@ -11,7 +10,7 @@ CREATE TABLE tombstone(
     id SERIAL PRIMARY KEY,
     material_tombstone VARCHAR(50),
     temperature_tombstone DECIMAL(3,2),
-    color_tombstone VARCHAR(30);
+    color_tombstone VARCHAR(30)
 );
 CREATE TABLE stone(
     id SERIAL PRIMARY KEY,
@@ -26,53 +25,51 @@ CREATE TABLE creature(
     name_creature VARCHAR(20),
     color_creature VARCHAR(10)
 );
-CREATE TABLE body(
-    id SERIAL PRIMARY KEY,
-    condition_body VARCHAR(20),
-    name_body VARCHAR(20),
-    id_grave INTEGER UNIQUE,
-    FOREIGN KEY (id_grave) REFERENCES grave (id_grave)
-);
-
 CREATE TABLE grave(
     id SERIAL PRIMARY KEY,
     size_grave INTEGER,
     year_grave DATE,
     id_tombstone INTEGER UNIQUE,
-    FOREIGN KEY (id_tombstone) REFERENCES tombstone (id_tombstone)
+    FOREIGN KEY (id_tombstone) REFERENCES tombstone (id)
+);
+CREATE TABLE body(
+    id SERIAL PRIMARY KEY,
+    condition_body VARCHAR(20),
+    name_body VARCHAR(20),
+    id_grave INTEGER UNIQUE,
+    FOREIGN KEY (id_grave) REFERENCES grave (id)
 );
 CREATE TABLE similarity(
     id SERIAL PRIMARY KEY,
     id_stone INTEGER,
     id_creature INTEGER,
-    FOREIGN KEY (id_stone) REFERENCES stone(id_stone),
-    FOREIGN KEY (id_creature) REFERENCES creature(id_creature)
+    id_stone INTEGER REFERENCES stone(id),
+    id_creature INTEGER REFERENCES creature(id)
 );
 
-
 INSERT INTO stone
-VALUES(1, 'green', 12, 1, 2),
-      (2, 'green', 6, 2, 1);
+VALUES('green', 12, 1, 2),
+      ('green', 6, 2, 1);
 
 INSERT INTO creature
-VALUES (1, 'звездчатые головы древних тварей', 'тварь', 'brown');
+VALUES ('звездчатые головы древних тварей', 'тварь', 'brown');
 
 INSERT INTO body
-VALUES (1, 'растерзанное', 'тело');
+VALUES ('растерзанное', 'тело');
 
 INSERT INTO human
-VALUES (1, 'Leik', 24, 'm', 'american'),
-       (2, 'Jak', 31, 'm', 'canadian'),
-       (3, 'Jein', 27, 'f', 'canadian');
+VALUES ('Leik', 24, 'm', 'american'),
+       ('Jak', 31, 'm', 'canadian'),
+       ('Jein', 27, 'f', 'canadian');
 
 INSERT INTO grave
-VALUES (1, 12, '1998-09-10', 2),
-       (2, 12, '1948-11-29', 1),
-       (3, 12, '2000-03-08', 3);
+VALUES (12, '1998-09-10', 2),
+       (12, '1948-11-29', 1),
+       (12, '2000-03-08', 3);
 
 INSERT INTO similarity
-VALUES (1, 2, 1);
+VALUES (2, 1);
 
 INSERT INTO tombstone
-VALUES (1, 'гранитные плиты', -10.3, 'dirty dark grey'),
-       (2, 'мраморные плиты', -13.7, 'moldy brown');
+VALUES ('гранитные плиты', -10.3, 'dirty dark grey'),
+       ('мраморные плиты', -13.7, 'moldy brown');
